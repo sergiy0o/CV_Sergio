@@ -63,7 +63,7 @@ li{
   height: 100%;
   padding: 0.6in var(--sidebar-horizontal-padding);
   background-color: #f2f2f2;
-  font-size: 8.5pt;
+  font-size: 9pt;
 }
 
 /* main */
@@ -165,7 +165,7 @@ li{
   flex: 0 0 var(--date-block-width);
   padding-top: calc(var(--row-blocks-padding-top) + 2.5pt) !important;
   padding-right: var(--decorator-horizontal-margin);
-  font-size: 9pt;
+  font-size: 8pt;
   text-align: right;
   line-height: 1;
 }
@@ -179,8 +179,9 @@ li{
   top: 1pt;
   right: 5.5pt;
   display: block;
-  height: 10pt;
-  content: '|';
+  font-size: 20pt;
+  height: 25pt;
+  content: '\2191';
 }
 
 .decorator{
@@ -240,8 +241,8 @@ li{
   color: #000;
 }
 
-.details h3{
-  font-size: 9pt;
+.details {
+  font-size: 10pt;
 }
 
 .main-block:not(.concise) .details div{
@@ -260,11 +261,12 @@ li{
 
 .details .place{
   float: left;
-  font-size: 7.5pt;
+  font-size: 10pt;
 }
 
 .details .location{
   float: right;
+  font-size: 8pt;
 }
 
 .details div{
@@ -329,7 +331,7 @@ li{
   padding-left: 0;
   font-family: "Source Code Pro";
   font-weight: 400;
-  line-height: 1.75;
+  line-height: 1.5;
 }
 
 #contact li > i{
@@ -348,6 +350,19 @@ li{
 }
 
 #skills ul li .fas {
+  color: #4699B9;
+}
+
+#languages{
+  line-height: 1.5;
+}
+
+#languages ul{
+  margin: 0.05in 0 0.15in;
+  padding: 0;
+}
+
+#languages ul li .fas {
   color: #4699B9;
 }
 

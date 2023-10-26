@@ -9,7 +9,12 @@
 <body lang="en">
   <section id="main">
     <header id="title">
-      <h1>Sergio Amo</h1>
+      <h1><span id="myname"></span></h1>
+      <!-- Anti Scraping / Search Engines -->
+      <script>
+        var myname = ["Ser", "gio ", "A", "mo"].join("");
+        document.getElementById("myname").textContent = myname;
+    </script>
       <span class="subtitle">IT Support Technician</span>
     </header>
     <section class="main-block">
@@ -18,7 +23,7 @@
       </h2>
       <section class="blocks">
         <div class="date">
-          <span>2013</span><span>present</span>
+          <span>Present</span><span>2013</span>
         </div>
         <div class="decorator">
         </div>
@@ -50,7 +55,7 @@
           <header>
             <h3>IT Technician</h3>
             <span class="place">CIRCUITOS IMPRESOS 2CI SL (Internship)</span>
-            <span class="location">Montcada i Reixach, Spain</span>
+            <span class="location">Montcada i Reixach, Spain (On Site)</span>
           </header>
           <div>
             <ul>
@@ -70,8 +75,8 @@
         <div class="details">
           <header>
             <h3>IT Technician</h3>
-            <span class="place">PCBOX</span>
-            <span class="location">Mollet del Vallès, Spain</span>
+            <span class="place">PCBOX (Internship)</span>
+            <span class="location">Mollet del Vallès, Spain (On Site)</span>
           </header>
           <div>
             <ul>
@@ -83,7 +88,7 @@
         </div>
       </section>
     </section>
-    <section class="main-block">
+    <!--<section class="main-block">
       <h2>
         <i class="fa fa-folder-open"></i> Selected Projects
       </h2>
@@ -143,7 +148,7 @@
           </div>
         </div>
       </section>
-    </section>
+    </section>-->
     <section class="main-block concise">
       <h2>
         <i class="fa fa-graduation-cap"></i> Education
@@ -186,10 +191,11 @@
         Contact Info
       </h1>
       <ul>
-        <li><i class="fa fa-globe"></i> MyWebsite.com</li>
+        <!--<li><i class="fa fa-globe"></i> MyWebsite.com</li>-->
         <li><i class="fab fa-linkedin"></i></i> linkedin.com/in/sergio-amo</li>
         <li><i class="fa fa-envelope"></i><span id="email"></span></li>
         <li><i class="fa fa-phone"></i><span id="phone"></span></li>
+        <!-- Anti Scraping / Search Engines -->
         <script>
           var phone = [" +34 ", "622 ", "919 ", "923"].join("");
           document.getElementById("phone").textContent = phone;
@@ -232,7 +238,7 @@
         </li>
       </ul>
     </div>
-    <div class="side-block" id="skills">
+    <div class="side-block" id="languages">
       <h1>
         Languages
       </h1>
