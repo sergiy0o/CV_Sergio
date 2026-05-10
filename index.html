@@ -1,310 +1,823 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
-  <link rel="stylesheet" type="text/css" href="dep/normalize.css/normalize.css" />
-  <link rel="stylesheet" type="text/css" href="dep/Font-Awesome-master/web-fonts-with-css/css/fontawesome-all.min.css" />
-  <link rel="stylesheet" type="text/css" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sergio — IT Support Technician</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080c10;
+      --bg2: #0d1117;
+      --bg3: #111820;
+      --border: #1e2d3d;
+      --border2: #1a3a2a;
+      --green: #00ff88;
+      --green2: #00cc6a;
+      --green3: #004d28;
+      --green-dim: #00ff8820;
+      --blue: #00b4d8;
+      --blue-dim: #00b4d815;
+      --text: #cdd6e0;
+      --text-dim: #6b8090;
+      --text-bright: #eaf2f8;
+      --mono: 'JetBrains Mono', monospace;
+      --display: 'Orbitron', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* Scanline overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.03) 2px,
+        rgba(0,0,0,0.03) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      min-height: 100vh;
+    }
+
+    /* ─── MAIN PANEL ─── */
+    main {
+      border-right: 1px solid var(--border);
+      padding: 48px 48px 64px;
+      position: relative;
+    }
+
+    /* ─── HEADER ─── */
+    .cv-header {
+      margin-bottom: 56px;
+      position: relative;
+    }
+
+    .prompt-line {
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .prompt-line::before {
+      content: '>';
+      color: var(--green);
+      font-size: 14px;
+    }
+
+    .cv-name {
+      font-family: var(--display);
+      font-size: 42px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      color: var(--text-bright);
+      text-transform: uppercase;
+      line-height: 1;
+      margin-bottom: 6px;
+      position: relative;
+    }
+
+    .cv-name::after {
+      content: '_';
+      color: var(--green);
+      animation: blink 1.1s step-end infinite;
+    }
+
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    .cv-title {
+      font-size: 12px;
+      color: var(--green);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .cv-title::before {
+      content: '//';
+      color: var(--text-dim);
+    }
+
+    .header-line {
+      height: 1px;
+      background: linear-gradient(90deg, var(--green) 0%, var(--border) 60%, transparent 100%);
+      margin-top: 20px;
+    }
+
+    /* ─── SECTION ─── */
+    .section {
+      margin-bottom: 48px;
+    }
+
+    .section-title {
+      font-family: var(--display);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-title .tag {
+      color: var(--text-dim);
+      font-family: var(--mono);
+      font-weight: 300;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ─── JOB BLOCK ─── */
+    .job {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 0 24px;
+      margin-bottom: 32px;
+      position: relative;
+    }
+
+    .job:last-child { margin-bottom: 0; }
+
+    .job-dates {
+      text-align: right;
+      padding-top: 2px;
+    }
+
+    .date-end {
+      font-size: 12px;
+      color: var(--green);
+      font-weight: 500;
+      display: block;
+    }
+
+    .date-start {
+      font-size: 11px;
+      color: var(--text-dim);
+      display: block;
+    }
+
+    .job-content {
+      border-left: 1px solid var(--border2);
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .job-content::before {
+      content: '';
+      position: absolute;
+      left: -4px;
+      top: 6px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+    }
+
+    .job-role {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-bright);
+      letter-spacing: 0.04em;
+      margin-bottom: 2px;
+    }
+
+    .job-company {
+      font-size: 11px;
+      color: var(--blue);
+      letter-spacing: 0.08em;
+      margin-bottom: 2px;
+    }
+
+    .job-location {
+      font-size: 10px;
+      color: var(--text-dim);
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+    }
+
+    .job-duties {
+      list-style: none;
+      padding: 0;
+    }
+
+    .job-duties li {
+      position: relative;
+      padding-left: 16px;
+      margin-bottom: 4px;
+      font-size: 12px;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ─── ROLE PROGRESSION ─── */
+    .role-progression {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 14px;
+      padding: 10px 12px;
+      background: var(--bg3);
+      border-left: 2px solid var(--green3);
+    }
+
+    .role-step {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+        .role-period {
+      font-size: 9px;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+      min-width: 100px;
+      flex-shrink: 0;
+    }
+
+    .job-duties li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--green);
+      font-size: 10px;
+      top: 2px;
+    }
+
+    /* ─── EDU BLOCK ─── */
+    .edu-block {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 0 24px;
+      margin-bottom: 20px;
+    }
+
+    .edu-content {
+      border-left: 1px solid var(--border2);
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .edu-content::before {
+      content: '';
+      position: absolute;
+      left: -4px;
+      top: 6px;
+      width: 7px;
+      height: 7px;
+      border: 1px solid var(--green);
+      background: var(--bg);
+      transform: rotate(45deg);
+    }
+
+    .edu-degree {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-bright);
+      margin-bottom: 2px;
+      line-height: 1.5;
+    }
+
+    .edu-school {
+      font-size: 11px;
+      color: var(--blue);
+    }
+
+    .edu-location {
+      font-size: 10px;
+      color: var(--text-dim);
+    }
+
+    /* ─── CERT BLOCK ─── */
+    .cert-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .cert-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-left: 2px solid var(--green3);
+      padding: 12px 16px;
+      transition: border-color 0.2s;
+    }
+
+    .cert-card:hover {
+      border-left-color: var(--green);
+    }
+
+    .cert-name {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-bright);
+      margin-bottom: 4px;
+    }
+
+    .cert-school {
+      font-size: 10px;
+      color: var(--text-dim);
+    }
+
+    /* ─── SIDEBAR ─── */
+    aside {
+      background: var(--bg2);
+      padding: 48px 28px 64px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .sidebar-section { }
+
+    .sidebar-title {
+      font-family: var(--display);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sidebar-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ─── CONTACT ─── */
+    .contact-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .contact-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--text);
+    }
+
+    .contact-label {
+      font-size: 9px;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      min-width: 40px;
+      padding-top: 1px;
+    }
+
+    .contact-value {
+      color: var(--text-bright);
+      word-break: break-all;
+    }
+
+    .contact-value a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    .contact-value a:hover { text-decoration: underline; }
+
+    /* ─── SKILLS ─── */
+    .skill-item {
+      margin-bottom: 14px;
+    }
+
+    .skill-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+
+    .skill-name {
+      font-size: 11px;
+      color: var(--text);
+    }
+
+    .skill-level {
+      font-size: 9px;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+    }
+
+    .skill-bar {
+      height: 3px;
+      background: var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--green2), var(--green));
+      position: relative;
+    }
+
+    .skill-fill::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 3px;
+      height: 100%;
+      background: white;
+      opacity: 0.6;
+    }
+
+    /* ─── LANGUAGES ─── */
+    .lang-item {
+      margin-bottom: 12px;
+    }
+
+    .lang-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+
+    .lang-name {
+      font-size: 11px;
+      color: var(--text-bright);
+    }
+
+    .lang-level {
+      font-size: 9px;
+      color: var(--text-dim);
+      letter-spacing: 0.06em;
+    }
+
+    .lang-dots {
+      display: flex;
+      gap: 4px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border: 1px solid var(--border);
+      transform: rotate(45deg);
+    }
+
+    .dot.filled {
+      background: var(--green);
+      border-color: var(--green);
+      box-shadow: 0 0 4px var(--green);
+    }
+
+    /* ─── STATUS BADGE ─── */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      color: var(--green);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1px solid var(--green3);
+      padding: 4px 10px;
+      margin-bottom: 32px;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%,100% { opacity: 1; box-shadow: 0 0 4px var(--green); }
+      50% { opacity: 0.5; box-shadow: none; }
+    }
+
+    /* ─── ANIMATION ─── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(8px);
+      animation: fadeUp 0.5s ease forwards;
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .job:nth-child(1) .fade-in { animation-delay: 0.1s; }
+    .job:nth-child(2) .fade-in { animation-delay: 0.2s; }
+    .job:nth-child(3) .fade-in { animation-delay: 0.3s; }
+    .section:nth-child(1) { animation: fadeUp 0.4s 0.05s ease both; }
+    .section:nth-child(2) { animation: fadeUp 0.4s 0.15s ease both; }
+    .section:nth-child(3) { animation: fadeUp 0.4s 0.25s ease both; }
+    aside { animation: fadeUp 0.5s 0.2s ease both; }
+  </style>
 </head>
-<body lang="en">
-  <section id="main">
-    <header id="title">
-      <h1><span id="myname"></span></h1>
-      <!-- Anti Scraping / Search Engines -->
-      <script>
-        var myname = ["Ser", "gio ", "A", "mo"].join("");
-        document.getElementById("myname").textContent = myname;
-    </script>
-      <span class="subtitle">IT Support Technician</span>
-    </header>
-    <section class="main-block">
-      <h2>
-        <i class="fa fa-suitcase"></i> Experiences
-      </h2>
-      <section class="blocks">
-        <div class="date">
-          <span>Present</span><span>2013</span>
-        </div>
-        <div class="decorator">
-        </div>
-        <div class="details">
-          <header>
-            <h3>IT Support Technician</h3>
-            <span class="place">Gameloft</span>
-            <span class="location">Barcelona, Spain (Hybrid model)</span>
-          </header>
-          <div>
-            <ul>
-              <li>Ensure computers functionality</li>
-              <li>Set up workstations and computer systems (Windows, Mac, Linux)</li>
-              <li>Installation and configuration of appropriate software and functions according to specifications required by every profile at the company</li>
-              <li>On-site / remote troubleshooting support to diagnose and resolve problems</li>
-              <li>Software and Hardware inventory tracking system management</li>
-              <li>Level 2 IT Support</li>
+<body>
+  <div class="layout">
+    <main>
+      <header class="cv-header">
+        <p class="prompt-line">curriculum_vitae --format=json --output=screen</p>
+        <h1 class="cv-name">Sergio Amo</h1>
+        <p class="cv-title">IT Support Technician</p>
+        <div class="header-line"></div>
+      </header>
+
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        Available · Barcelona · Hybrid
+      </div>
+
+      <section class="section">
+        <h2 class="section-title"><span class="tag">01</span> Experience</h2>
+
+        <div class="job">
+          <div class="job-dates">
+            <span class="date-end">Present</span>
+            <span class="date-start">2013</span>
+          </div>
+          <div class="job-content">
+            <p class="job-company">Gameloft</p>
+            <p class="job-location">Barcelona, Spain — Hybrid</p>
+
+            <div class="role-progression">
+              <div class="role-step">
+                <span class="role-period">2025 → Present</span>
+                <span class="job-role">Senior Local IT Technician</span>
+              </div>
+              <div class="role-step">
+                <span class="role-period">2013 → 2025</span>
+                <span class="job-role" style="color:var(--text);font-weight:400;">IT Support Technician</span>
+              </div>
+            </div>
+
+            <ul class="job-duties">
+              <li>Ensure computers functionality across all departments</li>
+              <li>Set up workstations and systems (Windows, Mac, Linux)</li>
+              <li>Installation and configuration of software per profile requirements</li>
+              <li>On-site / remote troubleshooting and issue resolution</li>
+              <li>Software and hardware inventory tracking system management</li>
+              <li>Level 2 IT Support escalation handling</li>
             </ul>
           </div>
         </div>
-      </section>
-      <section class="blocks">
-        <div class="date">
-          <span>June 2013</span><span>March 2013</span>
-        </div>
-        <div class="decorator">
-        </div>
-        <div class="details">
-          <header>
-            <h3>IT Technician</h3>
-            <span class="place">CIRCUITOS IMPRESOS 2CI SL (Internship)</span>
-            <span class="location">Montcada i Reixach, Spain (On Site)</span>
-          </header>
-          <div>
-            <ul>
-              <li>Helpdesk support</li>
+
+        <div class="job">
+          <div class="job-dates">
+            <span class="date-end">Jun 2013</span>
+            <span class="date-start">Mar 2013</span>
+          </div>
+          <div class="job-content">
+            <p class="job-role">IT Technician</p>
+            <p class="job-company">CIRCUITOS IMPRESOS 2CI SL</p>
+            <p class="job-location">Montcada i Reixach, Spain — Internship</p>
+            <ul class="job-duties">
+              <li>Helpdesk support for internal users</li>
               <li>Setup, configuration and repair of desktop computers</li>
-              <li>Hardware inventory</li>
+              <li>Hardware inventory management</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="job">
+          <div class="job-dates">
+            <span class="date-end">2010</span>
+            <span class="date-start">2009</span>
+          </div>
+          <div class="job-content">
+            <p class="job-role">IT Technician</p>
+            <p class="job-company">PCBOX</p>
+            <p class="job-location">Mollet del Vallès, Spain — Internship</p>
+            <ul class="job-duties">
+              <li>Assembly, repair and maintenance of desktop and laptop computers</li>
+              <li>Setup and configuration of OS and applications</li>
+              <li>Diagnosis of customer-reported issues</li>
             </ul>
           </div>
         </div>
       </section>
-      <section class="blocks">
-        <div class="date">
-          <span>2010</span><span>2009</span>
+
+      <section class="section">
+        <h2 class="section-title"><span class="tag">02</span> Education</h2>
+
+        <div class="edu-block">
+          <div class="job-dates">
+            <span class="date-end">2013</span>
+            <span class="date-start">2011</span>
+          </div>
+          <div class="edu-content">
+            <p class="edu-degree">Certificate of Higher Education — IT Administration & Management</p>
+            <p class="edu-school">INS La Ferreria</p>
+            <p class="edu-location">Montcada i Reixach, Spain</p>
+          </div>
         </div>
-        <div class="decorator">
-        </div>
-        <div class="details">
-          <header>
-            <h3>IT Technician</h3>
-            <span class="place">PCBOX (Internship)</span>
-            <span class="location">Mollet del Vallès, Spain (On Site)</span>
-          </header>
-          <div>
-            <ul>
-              <li>Assemble, repair and maintenance of desktop and laptop computers</li>
-              <li>Setup and configuration of Operating Systems and applications</li>
-              <li>Diagnosis of issues reported by customers</li>
-            </ul>
+
+        <div class="edu-block">
+          <div class="job-dates">
+            <span class="date-end">2010</span>
+            <span class="date-start">2008</span>
+          </div>
+          <div class="edu-content">
+            <p class="edu-degree">VET — Computer Technology / Systems Technology</p>
+            <p class="edu-school">INS La Ferreria</p>
+            <p class="edu-location">Montcada i Reixach, Spain</p>
           </div>
         </div>
       </section>
-    </section>
-    <!--<section class="main-block">
-      <h2>
-        <i class="fa fa-folder-open"></i> Selected Projects
-      </h2>
-      <section class="blocks">
-        <div class="date">
-          <span>2015</span><span>2016</span>
-        </div>
-        <div class="decorator">
-        </div>
-        <div class="details">
-          <header>
-            <h3>Some Project 1</h3>
-            <span class="place">Some workplace</span>
-          </header>
-          <div>
-            <ul>
-              <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
-              <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec mi ante. Etiam odio eros, placerat eu metus id, gravida eleifend odio. Vestibulum dapibus pharetra odio, egestas ullamcorper ipsum congue ac</li>
-              <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec mi ante. Etiam odio eros, placerat eu metus id, gravida eleifend odio</li>
-            </ul>
+
+      <section class="section">
+        <h2 class="section-title"><span class="tag">03</span> Certifications</h2>
+        <div class="cert-grid">
+          <div class="cert-card">
+            <p class="cert-name">MS Visual Studio 6 <span style="color:var(--text-dim);font-size:10px;">1,200h</span></p>
+            <p class="cert-school">Centre Informàtic Mollet · Mollet del Vallès</p>
+          </div>
+          <div class="cert-card">
+            <p class="cert-name">MS Office 2003 <span style="color:var(--text-dim);font-size:10px;">150h</span></p>
+            <p class="cert-school">Centre Informàtic Mollet · Mollet del Vallès</p>
+          </div>
+          <div class="cert-card">
+            <p class="cert-name">MS Windows <span style="color:var(--text-dim);font-size:10px;">50h</span></p>
+            <p class="cert-school">Centre Informàtic Mollet · Mollet del Vallès</p>
           </div>
         </div>
       </section>
-      <section class="blocks">
-        <div class="date">
-          <span>2014</span><span>2015</span>
-        </div>
-        <div class="decorator">
-        </div>
-        <div class="details">
-          <header>
-            <h3>Some Project 2</h3>
-            <span class="place">Some workplace</span>
-          </header>
-          <div>
-            <ul>
-              <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec mi ante. Etiam odio eros, placerat eu metus id, gravida eleifend odio. Vestibulum dapibus pharetra odio, egestas ullamcorper ipsum congue ac. Maecenas viverra tortor eget convallis vestibulum. Donec pulvinar venenatis est, non sollicitudin metus laoreet sed. Fusce tincidunt felis nec neque aliquet porttitor</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-      <section class="blocks">
-        <div class="date">
-          <span>2014</span>
-        </div>
-        <div class="decorator">
-        </div>
-        <div class="details">
-          <header>
-            <h3>Some Project 3</h3>
-            <span class="place">Some workplace</span>
-          </header>
-          <div>
-            <ul>
-              <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nec mi ante. Etiam odio eros, placerat eu metus id, gravida eleifend odio</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-    </section>-->
-    <section class="main-block concise">
-      <h2>
-        <i class="fa fa-graduation-cap"></i> Education
-      </h2>
-      <section class="blocks">
-        <div class="date">
-          <span>2013</span><span>2011</span>
-        </div>
-        <div class="decorator">
-        </div>
-        <div class="details">
-          <header>
-            <h3>Certificate of Higher Education, Computer/Information Technology Administration and Management</h3>
-            <span class="place">INS La Ferreria</span>
-            <span class="location">Montcada i Reixach, Spain</span>
-          </header>
-        </div>
-      </section>
-      <section class="blocks">
-        <div class="date">
-          <span>2010</span><span>2008</span>
-        </div>
-        <div class="decorator">
-        </div>
-        <div class="details">
-          <header>
-            <h3>Vocational Education and Training, Computer Technology/Computer Systems Technology</h3>
-            <span class="place">INS La Ferreria</span>
-            <span class="location">Montcada i Reixach, Spain</span>
-          </header>
-        </div>
-      </section>
-    </section>
-    <section class="main-block concise">
-      <h2>
-        <i class="fa fa-certificate"></i> Courses & certifications
-      </h2>
-      <section class="blocks">
-        <div class="date">
-        </div>
-        <div class="decorator">
-        </div>
-        <div class="details">
-          <header>
-            <h3>MS Visual Studio 6 (1,200h)</h3>
-            <span class="place">Centre Informàtic Mollet</span>
-            <span class="location">Mollet del Vallès, Spain</span>
-          </header>
-        </div>
-      </section>
-      <section class="blocks">
-        <div class="date">
-        </div>
-        <div class="decorator">
-        </div>
-        <div class="details">
-          <header>
-            <h3>MS Office 2003 (150h)</h3>
-            <span class="place">Centre Informàtic Mollet</span>
-            <span class="location">Mollet del Vallès, Spain</span>
-          </header>
-        </div>
-      </section>
-      <section class="blocks">
-        <div class="date">
-        </div>
-        <div class="decorator">
-        </div>
-        <div class="details">
-          <header>
-            <h3>MS Windows (50h)</h3>
-            <span class="place">Centre Informàtic Mollet</span>
-            <span class="location">Mollet del Vallès, Spain</span>
-          </header>
-        </div>
-      </section>
-    </section>
-  </section>
-  <aside id="sidebar">
-    <div class="side-block" id="contact">
-      <h1>
-        Contact Info
-      </h1>
-      <ul>
-        <li><i class="fa fa-globe"></i><a href="http://sergio.wip.la"> sergio.wip.la</a></li>
-        <li><i class="fab fa-linkedin"></i></i><a href="https://linkedin.com/in/sergio-amo"> linkedin.com/in/sergio-amo</a></li>
-        <li><i class="fa fa-envelope"></i><span id="email"></span></li>
-        <li><i class="fa fa-phone"></i><span id="phone"></span></li>
-        <!-- Anti Scraping / Search Engines -->
+    </main>
+
+    <aside>
+      <section class="sidebar-section">
+        <h2 class="sidebar-title">Contact</h2>
+        <ul class="contact-list">
+          <li>
+            <span class="contact-label">Web</span>
+            <span class="contact-value"><a href="http://sergio.wip.la">sergio.wip.la</a></span>
+          </li>
+          <li>
+            <span class="contact-label">LinkedIn</span>
+            <span class="contact-value"><a href="https://linkedin.com/in/sergio-amo">linkedin.com/in/sergio-amo</a></span>
+          </li>
+          <li>
+            <span class="contact-label">Email</span>
+            <span class="contact-value" id="email-val"></span>
+          </li>
+        </ul>
         <script>
-          var phone = [" +34 ", "622 ", "919 ", "923"].join("");
-          document.getElementById("phone").textContent = phone;
-          var email = [" serg", "io.kie@", "proto", "n.me"].join("");
-          document.getElementById("email").textContent = email;
-      </script>     
-      </ul>
-    </div>
-    <div class="side-block" id="skills">
-      <h1>
-        Skills
-      </h1>
-      <ul>
-        <li>Software/OS Troubleshooting</li>
-        <li><i class="fas fa-circle"></i>
-          <i class="fas fa-circle"></i>
-          <i class="fas fa-circle"></i>
-          <i class="fas fa-circle"></i>
-          <i class="fas fa-circle"></i>
-        </li>
-      </ul>
-      <ul>
-        <li>Device and Peripheral Setup</li>
-        <li><i class="fas fa-circle"></i>
-          <i class="fas fa-circle"></i>
-          <i class="fas fa-circle"></i>
-          <i class="fas fa-circle"></i>
-        </li>
-      </ul>
-      <ul>
-        <li>Linux Environment</li>
-        <li><i class="fas fa-circle"></i>
-          <i class="fas fa-circle"></i>
-        </li>
-      </ul>
-      <ul>
-        <li>Powershell Scripting</li>
-        <li><i class="fas fa-circle"></i>
-          <i class="fas fa-circle"></i>
-        </li>
-      </ul>
-    </div>
-    <div class="side-block" id="languages">
-      <h1>
-        Languages
-      </h1>
-      <ul>
-        <li>Spanish</li>
-        <li><i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-        </li>
-      </ul>
-      <ul>
-        <li>Catalan</li>
-        <li><i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-        </li>
-      </ul>
-      <ul>
-        <li>English</li>
-        <li><i class="fas fa-star"></i>
-          <i class="fas fa-star"></i>
-        </li>
-      </ul>
-    </div>
-  </aside>
+          document.getElementById('email-val').textContent = 'sergio.kie@proton.me';
+        </script>
+      </section>
+
+      <section class="sidebar-section">
+        <h2 class="sidebar-title">Skills</h2>
+
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">Software/OS Troubleshooting</span>
+            <span class="skill-level">Expert</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:100%"></div></div>
+        </div>
+
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">Device & Peripheral Setup</span>
+            <span class="skill-level">Expert</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+        </div>
+
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">Linux Environment</span>
+            <span class="skill-level">Intermediate</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:60%"></div></div>
+        </div>
+
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">Docker</span>
+            <span class="skill-level">Intermediate</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:52%"></div></div>
+        </div>
+
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">Ansible</span>
+            <span class="skill-level">Intermediate</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:48%"></div></div>
+        </div>
+
+        <div class="skill-item">
+          <div class="skill-header">
+            <span class="skill-name">PowerShell Scripting</span>
+            <span class="skill-level">Intermediate</span>
+          </div>
+          <div class="skill-bar"><div class="skill-fill" style="width:45%"></div></div>
+        </div>
+      </section>
+
+      <section class="sidebar-section">
+        <h2 class="sidebar-title">Languages</h2>
+
+        <div class="lang-item">
+          <div class="lang-header">
+            <span class="lang-name">Spanish</span>
+            <span class="lang-level">Native</span>
+          </div>
+          <div class="lang-dots">
+            <div class="dot filled"></div>
+            <div class="dot filled"></div>
+            <div class="dot filled"></div>
+            <div class="dot filled"></div>
+            <div class="dot filled"></div>
+          </div>
+        </div>
+
+        <div class="lang-item">
+          <div class="lang-header">
+            <span class="lang-name">Catalan</span>
+            <span class="lang-level">Native</span>
+          </div>
+          <div class="lang-dots">
+            <div class="dot filled"></div>
+            <div class="dot filled"></div>
+            <div class="dot filled"></div>
+            <div class="dot filled"></div>
+            <div class="dot filled"></div>
+          </div>
+        </div>
+
+        <div class="lang-item">
+          <div class="lang-header">
+            <span class="lang-name">English</span>
+            <span class="lang-level">Proficient</span>
+          </div>
+          <div class="lang-dots">
+            <div class="dot filled"></div>
+            <div class="dot filled"></div>
+            <div class="dot filled"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sidebar-section">
+        <h2 class="sidebar-title">Sys Info</h2>
+        <div style="font-size:10px; color:var(--text-dim); line-height:2; font-family:var(--mono);">
+          <div><span style="color:var(--green);">os</span>        Windows · Mac · Linux</div>
+          <div><span style="color:var(--green);">role</span>      L2 IT Support</div>
+          <div><span style="color:var(--green);">exp</span>       12+ years</div>
+          <div><span style="color:var(--green);">base</span>      Barcelona, ES</div>
+          <div><span style="color:var(--green);">mode</span>      Hybrid</div>
+          <div><span style="color:var(--green);">status</span>    <span style="color:#00ff88;">● ACTIVE</span></div>
+        </div>
+      </section>
+    </aside>
+  </div>
 </body>
 </html>
